@@ -30,3 +30,17 @@ app.post("/api/workouts", ({ body }, res) => {
         res.status(400).json(err);
       });
   });
+// put route to add excersize to current work out 
+  app.put("/api/workouts/:id", (req, res) => {
+    db.Workout.findByIdAndUpdate(
+      req.params.id,
+      { $push: { exercises: req.body } },
+      { new: true }
+    )
+      .then((workout) => {
+        res.json(workout);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
