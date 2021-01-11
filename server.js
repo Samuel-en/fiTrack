@@ -18,8 +18,10 @@ require("./routes/apiRoutes")(app);
 require("./routes/htmlRoutes")(app);
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
-  useNewUrlParser: true,
-  useFindAndModify: false,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true,
 });
 
 const connection = mongoose.connection;
