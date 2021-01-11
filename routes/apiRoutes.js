@@ -3,7 +3,7 @@ const db = require("../models");
 
 
 //  add totalDuration by aggregate function 
-router.get("/api/workouts", (req, res) => {
+app.get("/api/workouts", (req, res) => {
   db.Workout.aggregate([
     {
       $addFields: {
@@ -11,10 +11,22 @@ router.get("/api/workouts", (req, res) => {
       },
     },
   ])
-    .then((workouts) => {
-      res.json(workouts);
+    .then((workout) => {
+      res.json(workout);
     })
     .catch((err) => {
       res.status(400).json(err);
     });
 });
+
+// Create a new workout
+app.post("/api/workouts", ({ body }, res) => {
+    console.log(body);
+    db.Workout.create({})
+      .then((Workout) => {
+        res.json(Workout);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  });
