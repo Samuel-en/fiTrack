@@ -44,3 +44,24 @@ app.post("/api/workouts", ({ body }, res) => {
         console.log(err);
       });
   });
+
+// route for stats from last 10 workouts
+  app.get("/api/workouts/range", (req, res) => {
+    db.Workout.aggregate([
+      {
+        $addFields: {
+          totalDuration: { $sum: "$exercises:duration" },
+        },
+      },
+    ])
+      .sort({ _id: -1 })
+      .limit(10)
+      .then((stats) => {
+        res.json(stats);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  });
+
+
